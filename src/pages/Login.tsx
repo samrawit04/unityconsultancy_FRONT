@@ -1,10 +1,48 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { IconBrandGoogle, IconBrandFacebook } from "@tabler/icons-react";
-import { AlignCenter } from "lucide-react";
+import { IconBrandGoogle } from "@tabler/icons-react";
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:3000/user/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Login failed");
+        return;
+      }
+      localStorage.setItem("token", data.token);
+      navigate("/client-dashboard");
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+      console.error(err);
+    }
+  };
   return (
     <div className="min-h-screen flex">
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12 rounded-tr-[250px] rounded-bl-[250px]">
@@ -38,22 +76,30 @@ const Login = () => {
             <h1 className="text-3xl font-bold text-[#4b2a75] mb-2">Sign In</h1>
           </div>
 
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <input
                 type="email"
+                name="email"
                 placeholder="Email address"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75] focus:bg-white transition-colors"
               />
             </div>
             <div className="relative">
               <input
                 type="password"
+                name="password"
                 placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
                 className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75] focus:bg-white transition-colors"
               />
             </div>
-            <Button className="w-full bg-[#4b2a75] hover:bg-[#3a2057] text-white py-3 rounded-lg text-base font-semibold">
+            <Button
+              type="submit"
+              className="w-full bg-[#4b2a75] hover:bg-[#3a2057] text-white py-3 rounded-lg text-base font-semibold">
               Sign In
             </Button>
             <div className="relative my-6">
