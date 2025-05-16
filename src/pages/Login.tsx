@@ -31,13 +31,22 @@ const Login = () => {
       });
 
       const data = await response.json();
+      console.log("Login response:", data);
 
       if (!response.ok) {
         setError(data.message || "Login failed");
         return;
       }
-      localStorage.setItem("token", data.token);
-      navigate("/client-dashboard");
+
+      localStorage.setItem("token", data.token.token?.access_token);
+
+      const role = (data.token.role || "").toUpperCase();
+      console.log("Extracted role:", role);
+      if (role === "COUNSELOR") {
+        navigate("/counselor-dashboard");
+      } else {
+        navigate("/client-dashboard");
+      }
     } catch (err) {
       setError("Something went wrong. Please try again.");
       console.error(err);
@@ -96,7 +105,15 @@ const Login = () => {
                 onChange={handleChange}
                 className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75] focus:bg-white transition-colors"
               />
+              <div className="text-center mt-2">
+                <Link
+                  to="/forgot-password"
+                  className="text-sm text-[#4b2a75] hover:underline font-medium">
+                  Forgot password?
+                </Link>
+              </div>
             </div>
+
             <Button
               type="submit"
               className="w-full bg-[#4b2a75] hover:bg-[#3a2057] text-white py-3 rounded-lg text-base font-semibold">

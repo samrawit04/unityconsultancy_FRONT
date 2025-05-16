@@ -102,7 +102,13 @@ const EmailVerification = () => {
       ) {
         setSuccessMessage("Account verified!");
         setErrorMessage(null);
-        setTimeout(() => navigate("/login"), 1500);
+        setTimeout(() => {
+          if (data.role?.toLowerCase() === "counselor") {
+            navigate("/counselor-dashboard");
+          } else {
+            navigate("/client-dashboard");
+          }
+        });
       } else {
         setErrorMessage(data.message || "Failed to verify OTP.");
         setSuccessMessage(null);
@@ -121,7 +127,6 @@ const EmailVerification = () => {
       return;
     }
 
-    setIsLoading(true);
     setErrorMessage(null);
     setSuccessMessage(null);
 
@@ -134,19 +139,19 @@ const EmailVerification = () => {
 
       const data = await res.json();
 
-      if (res.ok && data.success) {
+      if (res.ok) {
         setVerificationCode(["", "", "", "", "", ""]);
         setIsResendDisabled(true);
         setCountdown(120);
         setErrorMessage(null);
         setSuccessMessage("A new code has been sent to your email.");
 
-        if (data.newVerificationId) {
-          setVerificationId(data.newVerificationId);
+        if (data.verificationId) {
+          setVerificationId(data.verificationId);
           window.history.replaceState(
             null,
             "",
-            `?verificationId=${data.newVerificationId}`,
+            `?verificationId=${data.verificationId}`,
           );
         }
       } else {

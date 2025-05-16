@@ -9,7 +9,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import ClientRegister from "./pages/register/ClientRegister";
+import ClientRegister from "./pages/register/UserRegister";
 import CounselorRegister from "./pages/register/CounselorRegister";
 import EmailVerification from "./pages/EmailVerification";
 import ClientProfile from './pages/ClientProfile';
@@ -24,6 +24,8 @@ import CounselorFeedback from './pages/CounselorFeedback';
 import FinalSessionSet from './pages/FinalSessionSet';
 import CounselorArticles from './pages/CounselorArticles';
 import BookingSession from './pages/BookSession';
+import UserRegister from './pages/register/UserRegister';
+import ResetPassword from './pages/ResetPassword';
 
 const queryClient = new QueryClient();
 
@@ -40,21 +42,29 @@ const App = () => (
             <Route path="/therapist" element={<Index />} />
             <Route path="/services" element={<Index />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/register/client" element={<ClientRegister />} />
+            <Route path="/register/user" element={<UserRegister />} />
             <Route path="/register/counselor" element={<CounselorRegister />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/verify-email" element={<EmailVerification />} /> {/* Add this line */}
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/verify-email" element={<EmailVerification />} />{" "}
+            {/* Add this line */}
             <Route path="/profile-completion" element={<ProfileCompletion />} />
             <Route path="/client-profile" element={<ClientProfile />} />
-            <Route path="/client-profile-next" element={<ClientProfileNext />} />
+            <Route
+              path="/client-profile-next"
+              element={<ClientProfileNext />}
+            />
             <Route path="/client-dashboard" element={<ClientDashboard />} />
             <Route path="/counselor-posts" element={<CounselorPosts />} />
-          <Route path="/counselor-dashboard" element={<CounselorDashboard />} />
-          <Route path="/counselor-profile" element={<CounselorProfile />} />
-          <Route path="/availability" element={<CounselorAvailability />} />
-          <Route path="/counselor-schedule" element={<CounselorSchedule />} />
-          <Route path="/counselor-feedback" element={<CounselorFeedback />} />
-          <Route path="/final-session-set" element={<FinalSessionSet />} />
+            <Route
+              path="/counselor-dashboard"
+              element={<CounselorDashboard />}
+            />
+            <Route path="/counselor-profile" element={<CounselorProfile />} />
+            <Route path="/availability" element={<CounselorAvailability />} />
+            <Route path="/counselor-schedule" element={<CounselorSchedule />} />
+            <Route path="/counselor-feedback" element={<CounselorFeedback />} />
+            <Route path="/final-session-set" element={<FinalSessionSet />} />
             <Route path="/counselor-articles" element={<CounselorArticles />} />
             <Route path="/book-session" element={<BookingSession />} />
             <Route path="*" element={<NotFound />} />

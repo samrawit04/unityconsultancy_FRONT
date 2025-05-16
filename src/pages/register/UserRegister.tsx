@@ -9,7 +9,7 @@ const ROLE_MAP = {
   counselor: "COUNSELOR",
 } as const;
 
-const ClientRegister = () => {
+const UserRegister = () => {
   const navigate = useNavigate();
   const [role, setRole] = useState<"client" | "counselor" | null>(null);
 
@@ -219,4 +219,4 @@ const ClientRegister = () => {
   );
 };
 
-export default ClientRegister;
+export default UserRegister;
