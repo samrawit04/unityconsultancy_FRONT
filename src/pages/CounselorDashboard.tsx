@@ -24,7 +24,7 @@ const CounselorDashboard = () => {
             <Link to="/clients" className="text-[#4b2a75] hover:text-[#3a2057] font-medium">
               Clients
             </Link>
-            <Link to="/counselor-posts" className="text-[#4b2a75] hover:text-[#3a2057] font-medium">
+            <Link to="/counselor-articles" className="text-[#4b2a75] hover:text-[#3a2057] font-medium">
               Posts
             </Link>
             <Link to="/logout" className="text-[#4b2a75] hover:text-[#3a2057] font-medium">Logout</Link>
