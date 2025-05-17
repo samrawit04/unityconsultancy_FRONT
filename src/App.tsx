@@ -1,5 +1,4 @@
-
-import ProfileCompletion from './pages/ProfileCompletion';
+import ProfileCompletion from "./pages/ProfileCompletion";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,20 +11,22 @@ import Login from "./pages/Login";
 import ClientRegister from "./pages/register/UserRegister";
 import CounselorRegister from "./pages/register/CounselorRegister";
 import EmailVerification from "./pages/EmailVerification";
-import ClientProfile from './pages/ClientProfile';
-import ClientProfileNext from './pages/ClientProfileNext';
-import ClientDashboard from './pages/ClientDashboard';
-import CounselorPosts from './pages/CounselorPosts';
-import CounselorDashboard from './pages/CounselorDashboard';
-import CounselorProfile from './pages/CounselorProfile';
-import CounselorAvailability from './pages/CounselorAvailability';
-import CounselorSchedule from './pages/CounselorSchedule';
-import CounselorFeedback from './pages/CounselorFeedback';
-import FinalSessionSet from './pages/FinalSessionSet';
-import CounselorArticles from './pages/CounselorArticles';
-import BookingSession from './pages/BookSession';
-import UserRegister from './pages/register/UserRegister';
-import ResetPassword from './pages/ResetPassword';
+import ClientProfile from "./pages/ClientProfile";
+import ClientProfileNext from "./pages/ClientProfileNext";
+import ClientDashboard from "./pages/ClientDashboard";
+import CounselorPosts from "./pages/CounselorPosts";
+import CounselorDashboard from "./pages/CounselorDashboard";
+import CounselorProfile from "./pages/CounselorProfile";
+import CounselorAvailability from "./pages/CounselorAvailability";
+import CounselorSchedule from "./pages/CounselorSchedule";
+import CounselorFeedback from "./pages/CounselorFeedback";
+import FinalSessionSet from "./pages/FinalSessionSet";
+import CounselorArticles from "./pages/CounselorArticles";
+import BookingSession from "./pages/BookSession";
+import UserRegister from "./pages/register/UserRegister";
+import ResetPassword from "./pages/ResetPassword";
+import ResetSuccess from "./pages/ResetPasswordSuccess";
+import ResetPasswordForm from "./pages/ResetPasswordForm";
 
 const queryClient = new QueryClient();
 
@@ -46,8 +47,9 @@ const App = () => (
             <Route path="/register/counselor" element={<CounselorRegister />} />
             <Route path="/login" element={<Login />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/reset-success" element={<ResetSuccess />} />
+            <Route path="/reset-form" element={<ResetPasswordForm />} />
             <Route path="/verify-email" element={<EmailVerification />} />{" "}
-            {/* Add this line */}
             <Route path="/profile-completion" element={<ProfileCompletion />} />
             <Route path="/client-profile" element={<ClientProfile />} />
             <Route

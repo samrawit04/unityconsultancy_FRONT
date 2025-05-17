@@ -1,6 +1,33 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ResetPassword = () => {
+  const [email, setEmail] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSuccessMsg("");
+    setErrorMsg("");
+
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/user/forget-password",
+        {
+          email,
+        },
+      );
+      const { verificationId } = res.data;
+      navigate("/reset-success");
+    } catch (error) {
+      console.error(error);
+      setErrorMsg(error.response?.data?.message || "Something went wrong");
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f4effc]">
       <div className="bg-white p-10 rounded-2xl shadow-lg w-full max-w-md text-center">
@@ -15,21 +42,27 @@ const ResetPassword = () => {
           </h1>
         </div>
 
-        {/* Input */}
-        <input
-          type="email"
-          placeholder="Enter Your Email Address"
-          className="w-full px-4 py-3 rounded-md bg-gray-100 text-gray-700 mb-4 focus:outline-none"
-        />
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter Your Email Address"
+            required
+            className="w-full px-4 py-3 rounded-md bg-gray-100 text-gray-700 focus:outline-none"
+          />
 
-        {/* Reset Button */}
-        <button
-          type="submit"
-          className="w-full bg-[#4b2a75] hover:bg-[#3a2057] text-white py-3 rounded-lg text-base font-semibold">
-          Reset
-        </button>
+          <button
+            type="submit"
+            className="w-full bg-[#4b2a75] hover:bg-[#3a2057] text-white py-3 rounded-lg text-base font-semibold">
+            Reset
+          </button>
+        </form>
 
-        {/* Links */}
+        {/* Success & Error Messages */}
+        {successMsg && <p className="text-green-600 mt-4">{successMsg}</p>}
+        {errorMsg && <p className="text-red-600 mt-4">{errorMsg}</p>}
+
         <div className="mt-6 space-y-2 text-sm text-gray-700">
           <p>
             Already have an account?{" "}

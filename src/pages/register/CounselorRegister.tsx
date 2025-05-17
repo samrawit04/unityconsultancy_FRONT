@@ -1,95 +1,205 @@
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import axios from "axios";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
-const CounselorRegister = () => {
+const CounselorProfileForm = ({ userId }) => {
+  const [form, setForm] = useState({
+    phoneNumber: "",
+    address: "",
+    gender: "",
+    specialization: "",
+    bio: "",
+    languagesSpoken: [],
+    preferredPaymentMethod: "",
+    bankAccountOrPhone: "",
+    profilePicture: null,
+    certificates: [],
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (name === "certificates") {
+      setForm((prev) => ({ ...prev, [name]: Array.from(files) }));
+    } else {
+      setForm((prev) => ({ ...prev, [name]: files[0] }));
+    }
+  };
+
+  const handleLanguageChange = (e) => {
+    const { value, checked } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      languagesSpoken: checked
+        ? [...prev.languagesSpoken, value]
+        : prev.languagesSpoken.filter((lang) => lang !== value),
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    data.append("userId", userId);
+    data.append("phoneNumber", form.phoneNumber);
+    data.append("address", form.address);
+    data.append("gender", form.gender);
+    data.append("specialization", form.specialization);
+    data.append("bio", form.bio);
+    data.append("preferredPaymentMethod", form.preferredPaymentMethod);
+    data.append("bankAccountOrPhone", form.bankAccountOrPhone);
+    data.append("profilePicture", form.profilePicture);
+
+    form.languagesSpoken.forEach((lang) =>
+      data.append("languagesSpoken[]", lang)
+    );
+    form.certificates.forEach((file) =>
+      data.append("certificates", file)
+    );
+
+    try {
+      await axios.post("http://localhost:3001/counselors/complete-profile", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      alert("Profile submitted successfully");
+    } catch (error) {
+      console.error("Submission failed", error);
+      alert("Error submitting profile");
+    }
+  };
+
   return (
-    <div className="min-h-screen relative flex items-center justify-center p-4">
-      <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.pexels.com/photos/1004014/pexels-photo-1004014.jpeg?auto=compress&cs=tinysrgb&w=600"
-          alt="Background"
-          className="w-full h-full object-cover"
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-4 max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg"
+    >
+      <h2 className="text-xl font-bold text-center">Complete Your Profile</h2>
+
+      <input
+        type="text"
+        name="phoneNumber"
+        placeholder="Phone Number"
+        onChange={handleInputChange}
+        className="p-2 border rounded"
+      />
+
+      <input
+        type="text"
+        name="address"
+        placeholder="Address"
+        onChange={handleInputChange}
+        className="p-2 border rounded"
+      />
+
+      <input
+        type="text"
+        name="gender"
+        placeholder="Gender"
+        onChange={handleInputChange}
+        className="p-2 border rounded"
+      />
+
+      <input
+        type="text"
+        name="specialization"
+        placeholder="Specialization"
+        onChange={handleInputChange}
+        className="p-2 border rounded"
+      />
+
+      <textarea
+        name="bio"
+        placeholder="Short Bio"
+        onChange={handleInputChange}
+        className="p-2 border rounded"
+      />
+
+      <label className="font-semibold">Languages Spoken:</label>
+      <div className="flex gap-4">
+        <label>
+          <input
+            type="checkbox"
+            value="Amharic"
+            onChange={handleLanguageChange}
+          />{" "}
+          Amharic
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="English"
+            onChange={handleLanguageChange}
+          />{" "}
+          English
+        </label>
+      </div>
+
+      <label className="font-semibold">Preferred Payment Method:</label>
+      <select
+        name="preferredPaymentMethod"
+        onChange={handleInputChange}
+        className="p-2 border rounded"
+      >
+        <option value="">Select Method</option>
+        <option value="Bank Transfer">Bank</option>
+        <option value="Telebirr Payment">Mobile Money</option>
+      </select>
+
+      {form.preferredPaymentMethod === "Bank Transfer" && (
+        <input
+          type="text"
+          name="bankAccountOrPhone"
+          placeholder="Bank Account Number"
+          onChange={handleInputChange}
+          className="p-2 border rounded"
         />
-        <div className="absolute inset-0 bg-[#4b2a75] bg-opacity-70 backdrop-blur-sm"></div>
-      </div>
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center relative z-10">
-        <div className="mb-8">
-          <img src="/src/asset/logo.png" alt="Unity Logo" className="h-12 w-auto mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-[#4b2a75] mb-2">Counselor Registration</h1>
-          <p className="text-gray-600">Create your counselor account</p>
-        </div>
+      )}
 
-        <form className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="text-left">
-              <input
-                type="text"
-                placeholder="First Name"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75]"
-              />
-            </div>
-            <div className="text-left">
-              <input
-                type="text"
-                placeholder="Last Name"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75]"
-              />
-            </div>
-          </div>
-          <div className="text-left">
-            <input
-              type="email"
-              placeholder="Email address"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75]"
-            />
-          </div>
-          <div className="text-left">
-            <input
-              type="text"
-              placeholder="Professional License Number"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75]"
-            />
-          </div>
-          <div className="text-left">
-            <select
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75]"
-            >
-              <option value="">Select Specialization</option>
-              <option value="marriage">Marriage Counseling</option>
-              <option value="premarital">Pre-marital Counseling</option>
-              <option value="relationship">Relationship Counseling</option>
-            </select>
-          </div>
-          <div className="text-left">
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75]"
-            />
-          </div>
-          <div className="text-left">
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4b2a75]"
-            />
-          </div>
-          <Button className="w-full bg-[#4b2a75] hover:bg-[#3a2057] text-white py-3 rounded-lg text-lg">
-            Create Account
+      {form.preferredPaymentMethod === "Telebirr Payment" && (
+        <input
+          type="text"
+          name="bankAccountOrPhone"
+          placeholder="Mobile Number"
+          onChange={handleInputChange}
+          className="p-2 border rounded"
+        />
+      )}
+
+      <label className="font-semibold">Upload Profile Picture:</label>
+      <input
+        type="file"
+        name="profilePicture"
+        accept="image/*"
+        onChange={handleFileChange}
+        className="p-1 border rounded"
+      />
+
+      <label className="font-semibold">Upload Certificates:</label>
+      <input
+        type="file"
+        name="certificates"
+        multiple
+        accept=".pdf,image/*"
+        onChange={handleFileChange}
+        className="p-1 border rounded"
+      />
+
+      <div className="flex justify-between mt-4">
+        <Button type="submit">Submit Profile</Button>
+        <Link to="/dashboard">
+          <Button type="button" variant="outline">
+            Not Now
           </Button>
-        </form>
-
-        <div className="mt-6">
-          <p className="text-sm text-gray-600">
-            Already have an account?{" "}
-            <Link to="/login" className="text-[#4b2a75] hover:underline font-medium">
-              Sign in
-            </Link>
-          </p>
-        </div>
+        </Link>
       </div>
-    </div>
+    </form>
   );
 };
 
-export default CounselorRegister;
+export default CounselorProfileForm;
