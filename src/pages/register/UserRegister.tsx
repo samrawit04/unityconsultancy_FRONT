@@ -79,7 +79,7 @@ const UserRegister = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:3000/user/signup",
+        "http://localhost:3001/user/signup",
         payload,
       );
 

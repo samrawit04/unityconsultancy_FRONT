@@ -43,11 +43,11 @@ const Career = () => {
         ))}
       </div>
       
-      <div className="flex justify-end">
+      {/* <div className="flex justify-end">
         <Button className="bg-[#4b2a75] hover:bg-[#3a2057] rounded-full px-6 py-2 text-sm">
           EXPLORE MORE
         </Button>
-      </div>
+      </div> */}
     </div>
   );
 };
