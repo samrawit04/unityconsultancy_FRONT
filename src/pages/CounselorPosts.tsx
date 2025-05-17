@@ -6,7 +6,7 @@ const CounselorPosts = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/articles') // Replace with your actual API URL
+    fetch('http://localhost:3000/articles') // Replace with your actual API URL
       .then((res) => res.json())
       .then((data) => setPosts(data))
       .catch((err) => console.error('Error fetching posts:', err));

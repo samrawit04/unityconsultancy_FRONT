@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
