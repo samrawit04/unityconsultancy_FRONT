@@ -1,4 +1,3 @@
-
 import {
   IconHeart,
   IconUsers,
@@ -43,12 +42,20 @@ const services = [
 
 const Services = () => {
   return (
-    <div id="services" className="py-16">
+    <div
+      id="services"
+      className="min-h-screen flex flex-col justify-center items-center px-4 scroll-mt-5 bg-white"
+    >
+      {/* Title */}
       <h2 className="text-2xl font-bold text-center mb-10">Services</h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      {/* Services Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full">
         {services.map((service) => (
-          <div key={service.id} className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center unity-card">
+          <div
+            key={service.id}
+            className="bg-white p-6 rounded-lg shadow-sm flex flex-col items-center text-center"
+          >
             <div className="border border-gray-200 rounded-full p-4 mb-4">
               <service.icon size={24} stroke={1.5} />
             </div>

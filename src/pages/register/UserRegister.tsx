@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { IconBrandGoogle } from "@tabler/icons-react";
 
@@ -39,6 +39,26 @@ const UserRegister = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleGoogleSignin = () => {
+    const role = sessionStorage.getItem("selectedRole");
+    if (!role) {
+      setError("Role is required");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      const redirectUrl = `http://localhost:3000/auth/google/start?role=${role}`;
+      window.location.href = redirectUrl;
+    } catch (error) {
+      setError("Google sign-up failed, please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -178,6 +198,7 @@ const UserRegister = () => {
               className="w-full bg-[#4b2a75] hover:bg-[#3a2057] text-white py-3 rounded-lg text-base font-semibold">
               {loading ? "Signing Up..." : "Sign Up"}
             </Button>
+
             {error && (
               <p className="text-red-600 text-center mt-2 font-semibold">
                 {error}
@@ -196,9 +217,31 @@ const UserRegister = () => {
             <div className="flex justify-center">
               <button
                 type="button"
-                className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white rounded-lg hover:bg-gray-100 transition-colors shadow-sm">
-                <IconBrandGoogle size={20} className="text-gray-600" />
-                <span className="text-gray-700 font-medium">Google</span>
+                onClick={handleGoogleSignin}
+                disabled={loading}
+                className="w-full bg-white-500 text-gray-500 p-2 rounded flex items-center justify-center gap-2">
+                {loading ? "Redirecting..." : "Google"}
+                <svg
+                  className="w-5 h-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 48 48">
+                  <path
+                    fill="#EA4335"
+                    d="M24 9.5c3.1 0 5.8 1.1 7.9 2.9l5.9-5.9C33.5 2.5 29.1 0 24 0 14.6 0 6.8 5.8 3.4 14.2l7.1 5.5C12.7 13.4 17.9 9.5 24 9.5z"
+                  />
+                  <path
+                    fill="#4285F4"
+                    d="M46.1 24.5c0-1.5-.1-3-.4-4.5H24v9h12.5c-.5 2.6-2.1 4.8-4.4 6.2l6.9 5.4c4-3.7 6.3-9.2 6.3-15.1z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M10.5 28.1c-1.1-3.2-1.1-6.6 0-9.8l-7.1-5.5C.9 17.4 0 20.6 0 24c0 3.4.9 6.6 2.4 9.3l7.1-5.2z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M24 48c5.1 0 9.5-1.7 12.6-4.7l-6.9-5.4c-1.9 1.3-4.3 2-6.9 2-6.1 0-11.3-3.9-13.2-9.3l-7.1 5.2C6.8 42.2 14.6 48 24 48z"
+                  />
+                </svg>
               </button>
             </div>
           </form>

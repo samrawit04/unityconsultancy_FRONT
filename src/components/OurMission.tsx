@@ -1,7 +1,7 @@
 
 const OurMission = () => {
   return (
-    <div className="flex-1 bg-[#f4f1fa] rounded-lg p-6">
+    <div className="flex-1 bg-[#f4f1fa] rounded-lg p-8 pt-10 mt-5">
       <h3 className="text-lg font-semibold mb-4">Our Mission</h3>
       
       <div className="space-y-6">
