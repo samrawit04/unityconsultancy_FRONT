@@ -10,7 +10,7 @@ const CounselorArticles = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const counselorId = 'd561bf13-d087-4b97-8f59-aac859294a8c'; // 🔁 Replace with dynamic value later
+  const counselorId = "adfe7a57-334e-4623-80c8-08c8b9be70a2"; // 🔁 Replace with dynamic value later
 
   // Fetch articles
   const fetchArticles = async () => {
