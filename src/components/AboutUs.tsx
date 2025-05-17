@@ -4,7 +4,7 @@ import { IconLeaf } from "@tabler/icons-react";
 
 const AboutUs = () => {
   return (
-    <div id="about" className="flex-1">
+    <div id="about" className="flex-1 scroll-mt-24 pt-24">
       <div className="flex items-center gap-2 mb-4">
         <IconLeaf className="text-[#4b2a75]" size={20} />
         <span className="text-sm uppercase font-semibold text-[#4b2a75]">ABOUT US</span>
